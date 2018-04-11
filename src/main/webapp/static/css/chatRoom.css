@@ -1,0 +1,34 @@
+#sendImage {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    left: 0;
+    opacity: 0;
+    overflow: hidden;
+}
+
+.imageLable {
+    position: relative;
+}
+
+#emojiWrapper {
+    display: none;
+    width: 480px;
+    bottom: 174px;
+    position: absolute;
+    background-color: #aaa;
+    box-shadow: 0 0 10px #555;
+}
+#emojiWrapper img {
+    margin: 2px;
+    padding: 2px;
+    width: 30px;
+    height: 30px;
+}
+#emojiWrapper img:hover {
+    background-color: blue;
+}
+
+.emoji{
+    display: inline;
+}

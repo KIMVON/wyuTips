@@ -1,0 +1,157 @@
+body {
+    padding-top: 70px;
+}
+
+.swiper-container {
+    width: 100%;
+    height: 70px;
+}
+
+#term-list {
+    width: 100%;
+    height: 92px;
+    /*padding-top: 6px;*/
+}
+
+.table-cell-font {
+    font-weight: bold;
+    font-size: 12px;
+}
+
+#course-body td {
+    padding: 2px;
+    height: 52px;
+}
+
+/*上下居中*/
+.table thead tr th {
+    vertical-align: middle;
+}
+
+.table thead tr td {
+    vertical-align: middle;
+}
+
+#achievement-thead tr td {
+    vertical-align: middle;
+}
+
+.table tbody tr td {
+    vertical-align: middle;
+}
+
+/*上下居中*/
+.table tbody tr th {
+    vertical-align: middle;
+}
+
+.course-table-head {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/*背景*/
+.table-cell-background {
+    padding: 2px;
+    background: #eea236;
+    border-radius: 5px;
+    -moz-border-radius: 5px; /* Old Firefox */
+    /*color: #f9ffd7;*/
+    font-weight: bold;
+}
+
+/*未访问*/
+table a:link {
+    color: #f9ffd7;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/*已访问 */
+table a:visited {
+    /*color: #3effa2;*/
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/*激活*/
+table a:active {
+    color: #d9c7b2;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/*鼠标移近*/
+table a:hover {
+    /*color: #3effa2;*/
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.swiper-container-style {
+    background: #ebf6e4;
+}
+
+.nav-style {
+    font-weight: bold;
+    font-size: 20px;
+    color: white;
+    margin-left: 56px;
+    line-height: 50px
+}
+
+/*未访问*/
+.nav-style:link {
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/*已访问 */
+.nav-style:visited {
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/*激活*/
+.nav-style:active {
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/*鼠标移近*/
+.nav-style:hover {
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn-size {
+    width: 200px;
+    height: 200px;
+}
+
+#into-course-btn {
+    width: 200px;
+    height: 200px;
+    font-size: 50px;
+    line-height: 200px;
+}
+
+#into-achievement-btn {
+    width: 200px;
+    height: 200px;
+    font-size: 50px;
+    line-height: 200px;
+}
+
+#into-course-div {
+    padding: 20px;
+
+}
+
+#into-achievement-div {
+    padding: 20px;
+}

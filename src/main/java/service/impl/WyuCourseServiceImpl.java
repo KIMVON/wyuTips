@@ -15,7 +15,13 @@ import java.util.*;
 public class WyuCourseServiceImpl implements WyuCourseService {
 
     @Override
-    public int imitateLogin(String studentNumber, String password, String verifyCode) {
+    public Map<String,Object> getVerifyCode() {
+        WyuCourseDao wyuCourseDao = new WyuCourseDao();
+        return wyuCourseDao.getVertifyCode();
+    }
+
+    @Override
+    public int imitateLogin(String studentNumber, String password, String verifyCode , String verifyCookie) {
         WyuCourseDao wyuCourseDao = new WyuCourseDao();
         Map<String, Object> data = new HashMap<>();
         data.put("account", studentNumber);
@@ -23,7 +29,7 @@ public class WyuCourseServiceImpl implements WyuCourseService {
         data.put("verifycode", verifyCode);
 
         //发送请求
-        int status = wyuCourseDao.imitateLogin(data);
+        int status = wyuCourseDao.imitateLogin(data , verifyCookie);
         if (status == 0) {
             return 200;
         }
@@ -32,7 +38,7 @@ public class WyuCourseServiceImpl implements WyuCourseService {
     }
 
     @Override
-    public Map<String, Object> getCourse(String week) {
+    public Map<String, Object> getCourse(String week , String verifyCookie) {
         WyuCourseDao wyuCourseDao = new WyuCourseDao();
         Map<String, Object> data = new HashMap<>();
         Calendar calendar = Calendar.getInstance();
@@ -41,17 +47,17 @@ public class WyuCourseServiceImpl implements WyuCourseService {
         String term = (month > 9 || month < 2) ? "01" : "02";
         String termCode = year + term;
         if (week.equals("0")) {
-            return wyuCourseDao.getAllCourse(termCode);
+            return wyuCourseDao.getAllCourse(termCode,verifyCookie);
         }
 
         data.put("xnxqdm", termCode);//学期
         data.put("zc", week);//周次
-        return wyuCourseDao.getCourse(data);
+        return wyuCourseDao.getCourse(data,verifyCookie);
     }
 
     @Override
-    public Map<String, Object> getNowCourse() {
-        Map<String, Object> courseList = getCourse("1");
+    public Map<String, Object> getNowCourse(String verifyCookie) {
+        Map<String, Object> courseList = getCourse("1",verifyCookie);
         SchooolDate schooolDate = (SchooolDate) courseList.get("weekDate");
         String sundayString = schooolDate.getSunday();
 
@@ -64,7 +70,7 @@ public class WyuCourseServiceImpl implements WyuCourseService {
             long betweenDays = betweenMills / (1000 * 60 * 60 * 24);
             long nowWeek = (betweenDays / 7) + 1;
 
-            return getCourse(nowWeek + "");
+            return getCourse(nowWeek + "",verifyCookie);
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -90,10 +96,5 @@ public class WyuCourseServiceImpl implements WyuCourseService {
         return result;
     }
 
-    @Override
-    public InputStream getVerifyCode() {
-        WyuCourseDao wyuCourseDao = new WyuCourseDao();
-        return wyuCourseDao.getVertifyCode();
-    }
 
 }

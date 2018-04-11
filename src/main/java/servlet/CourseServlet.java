@@ -20,9 +20,11 @@ public class CourseServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         String week = request.getParameter("week");
-        
+        //获取session值
+        String verifyCookie = (String) request.getSession().getAttribute("verifyCookie");
+
         WyuCourseService wyuCourseService = new WyuCourseServiceImpl();
-        Map<String, Object> courseList = wyuCourseService.getCourse(week);
+        Map<String, Object> courseList = wyuCourseService.getCourse(week,verifyCookie);
 
         ObjectMapper objectMapper = new ObjectMapper();
         String json = objectMapper.writeValueAsString(courseList);

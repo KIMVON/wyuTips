@@ -9,8 +9,8 @@ import java.util.List;
 public class WyuAchievementServiceImpl implements WyuAchievementService {
 
     @Override
-    public List<Achievement> getAchievement(String term) {
+    public List<Achievement> getAchievement(String term , String verifyCookie) {
         WyuCourseDao wyuCourseDao = new WyuCourseDao();
-        return wyuCourseDao.getAchievement(term);
+        return wyuCourseDao.getAchievement(term,verifyCookie);
     }
 }

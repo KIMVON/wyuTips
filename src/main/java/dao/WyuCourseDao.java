@@ -21,7 +21,7 @@ public class WyuCourseDao {
     private static String vertifyCodeUrl;
     private static String courseBaseUrl;
     private static String courseAchievementUrl;
-    private static String cookie;
+
 
     static {
         InputStream inputStream = WyuCourseDao.class.getClassLoader().getResourceAsStream("url.properties");
@@ -38,7 +38,7 @@ public class WyuCourseDao {
     }
 
 
-    public InputStream getVertifyCode() {
+    public Map<String,Object> getVertifyCode() {
         HttpURLConnection urlConnection;
         try {
             vertifyCodeUrl = vertifyCodeUrl + "?d=" + currentTimeMillis();
@@ -52,25 +52,20 @@ public class WyuCourseDao {
             urlConnection.connect();
             InputStream inputStream = urlConnection.getInputStream();
 
-            cookie = HttpUtil.getCookie(urlConnection, "Set-Cookie");
-            return inputStream;
-//            byte[] buffer = new byte[1024 * 8];
-//            int len;
-//            FileOutputStream fileOutputStream = new FileOutputStream(new File("/home/kim/IJ_Project/test3/a.jpg"));
-////            while ((len = inputStream.read(buffer, 0, buffer.length)) != -1) {
-//                fileOutputStream.write(buffer, 0, len);
-//            }
-////            cookie = getCookie(urlConnection);
-//            System.out.println(cookie);
-//            return cookie;
+            String cookie = HttpUtil.getCookie(urlConnection, "Set-Cookie");
+            Map<String,Object> result = new HashMap<>();
+            result.put("inputStream",inputStream);
+            result.put("cookie",cookie);
+
+            return result;
+
         } catch (IOException e) {
             e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        return null;
     }
 
-
-    public int imitateLogin(Map<String, Object> data) {
+    public int imitateLogin(Map<String, Object> data , String cookie) {
         try {
             URL url = new URL(loginUrl);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -106,20 +101,13 @@ public class WyuCourseDao {
 
             JSONObject jsonObject = new JSONObject(result.toString());
             return jsonObject.getInt("code");
-            //登录失败
-//            if (status != 0) {
-//
-//            }
-
-//            return cookie;
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException();
         }
     }
 
-
-    public Map<String, Object> getCourse(Map<String, Object> params) {
+    public Map<String, Object> getCourse(Map<String, Object> params , String cookie) {
         URL url;
         try {
             url = new URL(FormatUtil.buildUrl(courseBaseUrl, params));
@@ -153,14 +141,13 @@ public class WyuCourseDao {
 
     }
 
-    public Map<String, Object> getAllCourse(String term) {
+    public Map<String, Object> getAllCourse(String term , String cookie) {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("xnxqdm", term);//选择学期
-        return getCourse(params);
+        return getCourse(params , cookie);
     }
 
-
-    public List<Achievement> getAchievement(String term) {
+    public List<Achievement> getAchievement(String term , String cookie) {
         try {
             URL url = new URL(courseAchievementUrl);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -198,24 +185,13 @@ public class WyuCourseDao {
                 result.append(line);
             }
 
-//            JSONObject jsonObject = new JSONObject(result.toString());
-//            int status = jsonObject.getInt("code");
-//            //登录失败
-//            if (status!=0){
-//
-//            }
 
             return convertJsonToObjForAchievement(result.toString());
-        } catch (ProtocolException e) {
-            e.printStackTrace();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
     }
-
 
     private Map<String, Object> convertJsonToObjForCourse(String json, String week) {
         JSONArray jsonArray = new JSONArray(json);

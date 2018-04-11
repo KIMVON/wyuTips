@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.Map;
 
 @WebServlet(name = "ShowVerifyImgServlet" , urlPatterns = "/showVerifyImage")
 public class ShowVerifyImgServlet extends HttpServlet {
@@ -22,7 +23,11 @@ public class ShowVerifyImgServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         WyuCourseService wyuCourseService = new WyuCourseServiceImpl();
-        InputStream inputStream = wyuCourseService.getVerifyCode();
+        Map<String,Object> result = wyuCourseService.getVerifyCode();
+        InputStream inputStream = (InputStream) result.get("inputStream");
+
+        //保存进session
+        request.getSession().setAttribute("verifyCookie",result.get("cookie"));
 
         response.setContentType(JPEG);
         OutputStream out = response.getOutputStream();

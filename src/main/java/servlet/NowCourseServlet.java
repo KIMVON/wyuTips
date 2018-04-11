@@ -20,9 +20,11 @@ public class NowCourseServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
+        //获取session值
+        String verifyCookie = (String) request.getSession().getAttribute("verifyCookie");
 
         WyuCourseService wyuCourseService = new WyuCourseServiceImpl();
-        Map<String, Object> courseList = wyuCourseService.getNowCourse();
+        Map<String, Object> courseList = wyuCourseService.getNowCourse(verifyCookie);
         
         ObjectMapper objectMapper = new ObjectMapper();
         String json = objectMapper.writeValueAsString(courseList);

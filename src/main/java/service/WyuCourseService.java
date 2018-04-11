@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Map;
 
 public interface WyuCourseService {
-    InputStream getVerifyCode();
+    Map<String,Object> getVerifyCode();
 
-    int imitateLogin(String studentNumber, String password, String verifyCode);
+    int imitateLogin(String studentNumber, String password, String verifyCode, String verifyCookie);
 
-    Map<String, Object> getCourse(String week);
+    Map<String, Object> getCourse(String week, String verifyCookie);
 
-    Map<String,Object> getNowCourse();
+    Map<String,Object> getNowCourse(String verifyCookie);
 
     Map<String,Object> getAverageAchievement(List<Achievement> list);
 }

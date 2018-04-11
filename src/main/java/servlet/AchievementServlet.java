@@ -20,10 +20,13 @@ public class AchievementServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         //接受值
         String term = request.getParameter("term");
+        //获取session值
+        String verifyCookie = (String) request.getSession().getAttribute("verifyCookie");
+
 
         //处理值
         WyuAchievementService wyuAchievementService = new WyuAchievementServiceImpl();
-        List<Achievement> list = wyuAchievementService.getAchievement(term);
+        List<Achievement> list = wyuAchievementService.getAchievement(term,verifyCookie);
 
         //存进session中
         request.getSession().setAttribute("achievement",list);

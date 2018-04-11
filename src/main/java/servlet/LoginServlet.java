@@ -19,8 +19,12 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("password");
         String verifyCode = request.getParameter("verifyCode");
         WyuCourseService wyuCourseService = new WyuCourseServiceImpl();
+
+        //获取session值
+        String verifyCookie = (String) request.getSession().getAttribute("verifyCookie");
+
         //200成功 201验证码错误 202帐号或者密码错误
-        int status = wyuCourseService.imitateLogin(studentNumber,password,verifyCode);
+        int status = wyuCourseService.imitateLogin(studentNumber,password,verifyCode,verifyCookie);
         switch (status){
             case 200:
                 response.sendRedirect("home");//重定向

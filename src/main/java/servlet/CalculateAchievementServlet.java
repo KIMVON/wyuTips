@@ -3,7 +3,9 @@ package servlet;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dao.WyuCourseDao;
 import pojo.Achievement;
+import service.WyuAchievementService;
 import service.WyuCourseService;
+import service.impl.WyuAchievementServiceImpl;
 import service.impl.WyuCourseServiceImpl;
 
 import javax.servlet.ServletException;
@@ -20,8 +22,15 @@ public class CalculateAchievementServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
-//        String term = request.getParameter("term");
+        String term = request.getParameter("term");
         List<Achievement> list = (List<Achievement>) request.getSession().getAttribute("achievement");
+        if (list==null){
+            //获取session值
+            String verifyCookie = (String) request.getSession().getAttribute("verifyCookie");
+            //处理值
+            WyuAchievementService wyuAchievementService = new WyuAchievementServiceImpl();
+            list = wyuAchievementService.getAchievement(term,verifyCookie);
+        }
 
         WyuCourseService wyuCourseService = new WyuCourseServiceImpl();
         Map<String, Object> result = wyuCourseService.getAverageAchievement(list);

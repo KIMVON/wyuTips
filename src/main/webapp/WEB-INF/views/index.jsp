@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page isELIgnored="false" %><!--解决jstl jq冲突-->
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
     String path = request.getContextPath();
@@ -71,10 +72,14 @@
     <form action="login" method="post" class="form-signin">
         <h2 class="form-signin-heading">Bang Bang Bang</h2>
         <label for="inputStuNum" class="sr-only">学号</label>
-        <input name="studentNum" type="text" id="inputStuNum" class="form-control" placeholder="学号" required autofocus>
+        <input name="studentNum" type="text" id="inputStuNum" class="form-control" placeholder="学号"
+               value="${ sessionScope.get("account")}"
+               required autofocus>
 
         <label for="inputPassword" class="sr-only">密码</label>
-        <input name="password" type="password" id="inputPassword" class="form-control" placeholder="密码" required>
+        <input name="password" type="password" id="inputPassword" class="form-control" placeholder="密码"
+               value="${ sessionScope.get("password")}"
+               required>
 
 
         <div class="row">
@@ -94,11 +99,11 @@
 
         <div class="checkbox">
             <label>
-                <input type="checkbox" value="remember-me"> Remember me
+                <input name="remember" type="checkbox" value="remember-me" checked> Remember me
             </label>
         </div>
 
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">登 录</button>
     </form>
 </div> <!-- /container -->
 

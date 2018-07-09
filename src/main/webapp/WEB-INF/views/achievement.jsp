@@ -102,7 +102,8 @@
     <div>
         <div class="btn-group btn-group-justified" role="group" aria-label="...">
             <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default">大学绩点</button>
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myAllAchievement">大学绩点
+                </button>
             </div>
             <div class="btn-group" role="group">
                 <button type="button" class="btn btn-default"
@@ -123,6 +124,25 @@
             </div>
             <%--主要内容--%>
             <div id="modalBody" class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- myAllAchievement -->
+<div class="modal fade" id="myAllAchievement" tabindex="-1" role="dialog" aria-labelledby="myAllAchievementLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myAllAchievementLabel">大学平均绩点</h4>
+            </div>
+            <%--主要内容--%>
+            <div id="myAllAchievementBody" class="modal-body">
 
             </div>
             <div class="modal-footer">
@@ -154,6 +174,7 @@
     });
 
     <%--//"<%=basePath%>achievement"--%>
+
     function getAchievement(url, termCode) {
         //清空tbody的元素
         $("#achievement-body").empty();
@@ -163,9 +184,6 @@
 
         //获取绩点
         showAchievement(url, term);
-
-        //计算绩点
-        getAverageAchievement("<%=basePath%>calculateAchievement", term);
 
         //选中标识
         chooseTerm("term" + termCode);
@@ -212,6 +230,9 @@
                 var achievement = template(templateData);
                 $("#achievement-body").append(achievement);
             }
+
+            //计算绩点
+            getAverageAchievement("<%=basePath%>calculateAchievement", term);
         });
 
     }
@@ -222,6 +243,7 @@
             var json = eval("(" + data + ")");
 
             var averageAchievement = json["averageAchievement"];
+            var originalAverageAchievement = json["originalAverageAchievement"];
             var termCode = term.term;
 
             var termCodeInteger = parseInt(termCode);
@@ -230,10 +252,11 @@
 
             //使用模板
             var templateData = {
-                startYear:yearInteger,
-                endYear:yearInteger+1,
+                startYear: yearInteger,
+                endYear: yearInteger + 1,
                 term: termInteger,
                 achievement: averageAchievement,
+                originalAverageAchievement: originalAverageAchievement,
             };
             var source = $("#average-achievement-template").html();
             var template = Handlebars.compile(source);
@@ -274,7 +297,29 @@
     <div>
         <label>{{startYear}}-{{endYear}}学年</label>
         <label>第{{term}}学期</label>
-        <label>这学期平均绩点:{{achievement}}</label>
+        <div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <label>这学期新平均绩点:{{achievement}}</label>
+        </div>
+        <div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <label>这学期原平均绩点:{{originalAverageAchievement}}</label>
+        </div>
+    </div>
+</script>
+<%--显示绩点模板--%>
+<script id="all-average-achievement-template" type="text/x-handlebars-template">
+    <div>
+        <label>{{startYear}}-{{endYear}}学年</label>
+        <label>第{{term}}学期</label>
+        <div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <label>新平均绩点:{{achievement}}</label>
+        </div>
+        <div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <label>原平均绩点:{{originalAverageAchievement}}</label>
+        </div>
     </div>
 </script>
 </html>

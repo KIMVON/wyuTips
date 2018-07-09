@@ -23,7 +23,6 @@ public class AchievementServlet extends HttpServlet {
         //获取session值
         String verifyCookie = (String) request.getSession().getAttribute("verifyCookie");
 
-
         //处理值
         WyuAchievementService wyuAchievementService = new WyuAchievementServiceImpl();
         List<Achievement> list = wyuAchievementService.getAchievement(term,verifyCookie);
